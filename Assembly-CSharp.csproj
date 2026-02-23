@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Core\FeatureState.cs" />
+    <Compile Include="Assets\Scripts\Core\GameStateMachine.cs" />
     <Compile Include="Assets\Scripts\Features\MultiStepFeature.cs" />
+    <Compile Include="Assets\Scripts\Core\GameState.cs" />
     <Compile Include="Assets\Scripts\Animation\NewMonoBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\Core\FeatureBase.cs" />
     <Compile Include="Assets\Scripts\Core\FeatureManager.cs" />

@@ -5,7 +5,8 @@ namespace GameFlow.Features
 {
     public abstract class FeatureBase
     {
-        public FeatureState State { 
+        public FeatureState State 
+        { 
             get; 
             protected set; 
         } = FeatureState.Inactive;
@@ -71,5 +72,21 @@ namespace GameFlow.Features
         }
 
         protected virtual void OnCooldownComplete() { }
+
+        public virtual bool CanBeInterrupted()
+        {
+            return State == FeatureState.Active || State == FeatureState.Activating;
+        }
+
+        public void Interrupt()
+        {
+            if (!CanBeInterrupted())
+                return;
+
+            State = FeatureState.Inactive;
+            OnInterrupted();
+        }
+
+        protected virtual void OnInterrupted() { }
     }
 }

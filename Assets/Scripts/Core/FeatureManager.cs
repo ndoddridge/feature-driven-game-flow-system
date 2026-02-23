@@ -1,4 +1,5 @@
 using GameFlow.Features;
+using GameFlow.Core;
 using UnityEngine;
 
 namespace GameFlow.FeatureSystem
@@ -6,6 +7,7 @@ namespace GameFlow.FeatureSystem
     public class FeatureManager : MonoBehaviour
     {
         private FeatureBase[] features;
+        private readonly GameStateMachine gameState = new();
 
         public void RegisterFeatures(FeatureBase[] registeredFeatures)
         {
@@ -33,14 +35,19 @@ namespace GameFlow.FeatureSystem
             {
                 TryActivateFeature(0);
             }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                InterruptAll();
+            }
         }
 
         public void TryActivateFeature(int index)
         {
-            if (features == null)
-                return;
+            if (features == null) return;
+            if (index < 0 || index >= features.Length) return;
 
-            if (index < 0 || index >= features.Length)
+            if (gameState.Has(GameState.FeatureLock))
                 return;
 
             features[index]?.TryActivate();
@@ -52,6 +59,26 @@ namespace GameFlow.FeatureSystem
             {
                 new MultiStepFeature()
             });
+        }
+
+        public void InterruptAll()
+        {
+            if (features == null) return;
+
+            foreach (var feature in features)
+            {
+                feature?.Interrupt();
+            }
+
+            gameState.Add(GameState.Interrupted);
+        }
+
+        public void SetFeatureLock(bool locked)
+        {
+            if (locked)
+                gameState.Add(GameState.FeatureLock);
+            else
+                gameState.Remove(GameState.FeatureLock);
         }
     }
 }

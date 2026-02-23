@@ -61,5 +61,10 @@ namespace GameFlow.Features
         {
             Debug.Log("MultiStepFeature cooldown complete");
         }
+
+        protected override void OnInterrupted()
+        {
+            Debug.Log("MultiStepFeature interrupted");
+        }
     }
 }
