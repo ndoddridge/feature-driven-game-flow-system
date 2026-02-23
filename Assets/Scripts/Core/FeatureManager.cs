@@ -28,6 +28,11 @@ namespace GameFlow.FeatureSystem
             {
                 feature?.Tick(deltaTime);
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TryActivateFeature(0);
+            }
         }
 
         public void TryActivateFeature(int index)
@@ -39,6 +44,14 @@ namespace GameFlow.FeatureSystem
                 return;
 
             features[index]?.TryActivate();
+        }
+
+        private void Start()
+        {
+            RegisterFeatures(new FeatureBase[]
+            {
+                new MultiStepFeature()
+            });
         }
     }
 }
